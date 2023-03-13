@@ -11,14 +11,6 @@ parameters:
     displayName: Path To Publish
     type: string
     default: '$(Build.Repository.LocalPath)/target/spring-petclinic-3.0.0-SNAPSHOT.jar'
-  - name: Download_build_file
-    displayName: Download build file
-    type: string
-    default: '/tmp/'
-  - name: Build_file
-    displayName: Build file to download
-    type: string
-    default: '/tmp/spring-petclinic-3.0.0-SNAPSHOT.jar'
 
 stages:
   - stage: 'buildnpush'
