@@ -41,15 +41,4 @@ stages:
               PathToPublish: "${{ parameters.pathToPublish }}"
               ArtifactName: 'drop'
               publishLocation: 'Container'
-  - stage: 'deploy_spc' 
-    displayName: 'get the package and deploy spc'
-    dependsOn: 'buildnpush'
-    jobs: 
-      - job: 'Download_package'
-        displayName: 'Download Package from arthifacts'
-        steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'drop'
-              downloadPath: "${{parameters.Download_build_file}}"
-          - script: ansible-playbook -i hosts -e "Build_file=${{ parameters.Build_file }}" spring_petclinic.yml
+
