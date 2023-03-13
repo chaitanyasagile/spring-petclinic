@@ -9,7 +9,7 @@ jobs:
     displayName: Build maven project
     steps:
       - task: Maven@3
-        displayName: Build the Spring petclinic
+        displayName: 'Build the Spring petclinic'
         inputs:
           mavenPOMFile: 'pom.xml'
           goals: 'package'
@@ -17,4 +17,4 @@ jobs:
           javaHomeOption: Path
           jdkDirectory: '/usr/lib/jvm/java-17-openjdk-amd64'
           mavenVersionSelection: Path
-          mavenDirectory: '/opt/apache-maven-3.6.3'
+          mavenDirectory: '/usr/share/maven'
