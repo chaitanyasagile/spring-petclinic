@@ -1,19 +1,20 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- developer
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+---
+  pool: Default
+  
+  trigger: 
+    - developer
+  
+  jobs: 
+    - job: Build_job
+      displayName: Build maven project
+      steps:
+        - task: Maven@3
+          displayName: Build the Spring petclinic
+          inputs:
+            mavenPOMFile: 'pom.xml'
+            goals: 'package'
+            jdkVersionOption: '1.17'
+            javaHomeOption: Path
+            jdkDirectory: '/usr/lib/jvm/java-17-openjdk-amd64'
+            mavenVersionSelection: Path
+            mavenDirectory: '/opt/apache-maven-3.6.3'
