@@ -6,22 +6,50 @@ pool:
 trigger: 
   - developer
 
-jobs: 
-  - job: Build_job
-    displayName: Build maven project
-    steps:
-      - task: Maven@3
-        displayName: 'Build the Spring petclinic'
-        inputs:
-          mavenPOMFile: 'pom.xml'
-          goals: 'package'
-          jdkVersionOption: '1.17'
-          javaHomeOption: Path
-          jdkDirectory: '/usr/lib/jvm/java-17-openjdk-amd64'
-          mavenVersionSelection: Path
-          mavenDirectory: '/opt/apache-maven-3.6.3/'
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathToPublish: "${{ parameters.pathToPublish }}"
-          ArtifactName: 'drop'
-          publishLocation: 'Container'
+parameters:
+  - name: pathToPublish
+    displayName: Path To Publish
+    type: string
+    default: '$(Build.Repository.LocalPath)/target/spring-petclinic-3.0.0-SNAPSHOT.jar'
+  - name: Download_build_file
+    displayName: Download build file
+    type: string
+    default: '/tmp/'
+  - name: Build_file
+    displayName: Build file to download
+    type: string
+    default: '/tmp/spring-petclinic-3.0.0-SNAPSHOT.jar'
+
+stages:
+  - stage: 'buildnpush'
+    displayName: 'Build and push to arthifacts'
+    jobs:
+      - job: 'Build_SPC'
+        steps: 
+          - task: Maven@3
+            displayName: 'Build the Spring petclinic'
+            inputs:
+              mavenPOMFile: 'pom.xml'
+              goals: 'package'
+              jdkVersionOption: '1.17'
+              javaHomeOption: Path
+              jdkDirectory: '/usr/lib/jvm/java-17-openjdk-amd64'
+              mavenVersionSelection: Path
+              mavenDirectory: '/opt/apache-maven-3.6.3/'
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathToPublish: "${{ parameters.pathToPublish }}"
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
+  - stage: 'deploy_spc' 
+    displayName: 'get the package and deploy spc'
+    dependsOn: 'buildnpush'
+    jobs: 
+      - job: 'Download_package'
+        displayName: 'Download Package from arthifacts'
+        steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: 'drop'
+              downloadPath: "${{parameters.Download_build_file}}"
+          - script: ansible-playbook -i hosts -e "Build_file=${{ parameters.Build_file }}" spring_petclinic.yml
