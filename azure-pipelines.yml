@@ -1,5 +1,7 @@
 ---
-pool: Default
+pool: 
+  name: Default
+  vmImage: ubuntu-22.04
 
 trigger: 
   - developer
