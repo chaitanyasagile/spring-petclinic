@@ -1,7 +1,6 @@
 pipeline {
     agent { label 'Master' }
 	triggers { pollSCM ('* * * * *') }
-    tools { maven 'MAVEN' }
     stages {
         stage('vcs') {
             steps {
@@ -10,6 +9,7 @@ pipeline {
             }
         }
         stage('package') {
+            tools { maven 'MAVEN' }
             steps {
                 sh 'mvn package'
             }
