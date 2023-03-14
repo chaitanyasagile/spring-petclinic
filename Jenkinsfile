@@ -9,6 +9,9 @@ pipeline {
             }
         }
         stage('package') {
+            tools {
+                maven 'MAVEN' 
+            }
             steps {
                 sh 'mvn package'
             }
