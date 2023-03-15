@@ -12,7 +12,7 @@ pipeline{
     }
     stage('build') {
       steps{
-        sh './mvnw pacakage'
+        sh './mvnw package'
       }  
     }
     stage('sonar') {
