@@ -15,7 +15,7 @@ pipeline{
     stage(sonar) {
       steps{
         withSonarQubeEnv('sonar_cloud') {
-         sh './mvnw clean package sonar:sonar -Dsonar.organization=suchi1 -Dsonar.projectKey=tttt'
+         sh './mvnw clean package sonar:sonar -Dsonar.organization=suchi1 -Dsonar.projectKey=teju'
         } 
       }
     }
