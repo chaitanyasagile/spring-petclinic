@@ -1,26 +1,23 @@
 pipeline{
-  agent{label'JDK-JDK'}
-  tools {
-    jdk 'JDK17'
-  }
+  agent {label 'JDK-JDK'}
   stages{
-    stage('vcs') {
+    stage('vcs'){
       steps{
-        git url: 'https://github.com/chaitanyasagile/spring-petclinic.git',
+        git url: 'https://github.com/sagilechaitanya/spring-petclinic.git',
             branch: 'develop'
-      }  
+      }
     }
     stage('build') {
       steps{
         sh './mvnw package'
-      }  
+      }
     }
-    stage('sonar') {
+    stage(sonar) {
       steps{
         withSonarQubeEnv('sonar_cloud') {
-          sh './mvnw clean package sonar:sonar -Dsonar.organization=amar1 -Dsonar.projectKey=name'  
-        }
-      }  
+          sh './mvnw clean package sonar:sonar -Dsonar.organization=suchi1 -Dsonar.projectKey=teju1'
+        } 
+      }
     }
-  }  
+  }
 }
