@@ -1,0 +1,16 @@
+---
+  - name: spcpipeline
+    hosts: localhost
+    become: yes
+    tasks:
+      - name: creating a servicefile
+        ansible.builtin.copy:
+          src: spc.service
+          dest: /etc/systemd/system/spc.service
+          mode: '664'
+      - name: enableing servicefile
+        ansible.builtin.systemd:
+          name: spc.service
+          enabled: yes
+          daemon_reload: true
+          state: "started"
