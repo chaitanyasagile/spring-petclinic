@@ -1,5 +1,6 @@
 pipeline {
     agent { label 'maven'}
+    tools{ maven 'mavenpath'}
     stages {
         stage ('Clone') {
             steps {
@@ -36,7 +37,7 @@ pipeline {
                 rtMavenRun (
                     tool: 'mavenpath', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
-                    goals: 'clean package',
+                    goals: 'clean install',
                     deployerId: "MAVEN_DEPLOYER",
                     resolverId: "MAVEN_RESOLVER"
                 )
