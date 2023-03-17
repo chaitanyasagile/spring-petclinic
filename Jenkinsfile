@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Clone') {
             steps {
-                git branch: 'jfrog', url: "https://github.com/sagilechaitanya/spring-petclinic.git"
+                git branch: 'jfrog', url: "https://github.com/chaitanyasagile/spring-petclinic.git"
             }
         }
 
